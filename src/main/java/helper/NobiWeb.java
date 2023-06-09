@@ -16,17 +16,12 @@ import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class NobiWeb {
 
     private static WebDriver driver;
 
-    public static WebDriver OpenBrowser(String browserName, String browserLink) {
+    public static WebDriver openBrowser(String browserName, String browserLink) {
 
         if (browserName.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
@@ -51,23 +46,23 @@ public class NobiWeb {
         return driver;
     }
 
-    public static void CloseBrowser() {
+    public static void closeBrowser() {
         if (driver != null) {
             driver.quit();
         }
     }
 
-    public static void Click(By ObjectRepository) {
+    public static void click(By ObjectRepository) {
         driver.findElement(ObjectRepository).click();
     }
 
-    public static WebElement SetText(String Text, By ObjectRepository) {
+    public static WebElement setText(String Text, By ObjectRepository) {
         WebElement searchBox = driver.findElement(ObjectRepository);
         searchBox.sendKeys(Text);
         return searchBox;
     }
 
-    public static WebElement WaitForElementPresent(By ObjectRepository, int timeout) {
+    public static WebElement waitForElementPresent(By ObjectRepository, int timeout) {
         WebDriverWait wait = new WebDriverWait(driver, timeout);
         try {
             Thread.sleep(3000);
@@ -77,50 +72,13 @@ public class NobiWeb {
         return wait.until(ExpectedConditions.presenceOfElementLocated(ObjectRepository));
     }
 
-    public static boolean VerifyElementPresent(By ObjectRepository, int timeout) {
+    public static boolean verifyElementPresent(By ObjectRepository, int timeout) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, timeout);
             wait.until(ExpectedConditions.presenceOfElementLocated(ObjectRepository));
             return true;
         } catch (NoSuchElementException | org.openqa.selenium.TimeoutException e) {
             return false;
-        }
-    }
-
-    public static By ElementTagByParameter(String elementTag, String elementParameter, String elementValue) {
-        try {
-            Properties properties = new Properties();
-            FileInputStream fileInputStream = new FileInputStream("src/main/java/ObjectRepository/ElementTagByParameter.properties");
-            properties.load(fileInputStream);
-            fileInputStream.close();
-
-            String xpath = properties.getProperty("xpath");
-            String formattedXpath = xpath.replace("${elementTag}", elementTag)
-                    .replace("${elementParameter}", elementParameter)
-                    .replace("${elementValue}", elementValue);
-
-            return By.xpath(formattedXpath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static By ElementTagByText(String elementTag, String elementText) {
-        try {
-            Properties properties = new Properties();
-            FileInputStream fileInputStream = new FileInputStream("src/main/java/ObjectRepository/ElementTagByText.properties");
-            properties.load(fileInputStream);
-            fileInputStream.close();
-
-            String xpath = properties.getProperty("xpath");
-            String formattedXpath = xpath.replace("${elementTag}", elementTag)
-                    .replace("${elementText}", elementText);
-
-            return By.xpath(formattedXpath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }
