@@ -52,24 +52,57 @@ public class NobiWeb {
         }
     }
 
+    public static void back() {
+        driver.navigate().back();
+    }
+
     public static void click(By ObjectRepository) {
         driver.findElement(ObjectRepository).click();
     }
 
-    public static WebElement setText(String Text, By ObjectRepository) {
-        WebElement searchBox = driver.findElement(ObjectRepository);
-        searchBox.sendKeys(Text);
-        return searchBox;
+    public static void check(By ObjectRepository) {
+        //belum dilakukan pengetesan
+        WebElement checkbox = driver.findElement(ObjectRepository);
+        if (!checkbox.isSelected()) {
+            checkbox.click();
+        }
     }
 
-    public static WebElement waitForElementPresent(By ObjectRepository, int timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, timeout);
+    public static void unCheck(By ObjectRepository) {
+        //belum dilakukan pengetesan
+        WebElement checkbox = driver.findElement(ObjectRepository);
+        if (checkbox.isSelected()) {
+            checkbox.click();
+        }
+    }
+
+    public static WebElement setText(By ObjectRepository,String Text) {
+        WebElement element = driver.findElement(ObjectRepository);
+        element.sendKeys(Text);
+        return element;
+    }
+
+    public static String getText(By ObjectRepository) {
+        WebElement element = driver.findElement(ObjectRepository);
+        return element.getText();
+    }
+
+    public static WebElement waitForElementPresent(By ObjectRepository, int Timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Timeout);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return wait.until(ExpectedConditions.presenceOfElementLocated(ObjectRepository));
+    }
+
+    public static void delay(int Timeout) {
+        try {
+            Thread.sleep(Timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean verifyElementPresent(By ObjectRepository, int timeout) {
@@ -79,6 +112,16 @@ public class NobiWeb {
             return true;
         } catch (NoSuchElementException | org.openqa.selenium.TimeoutException e) {
             return false;
+        }
+    }
+
+    public static boolean verifyElementNotClickable(By ObjectRepository, int timeout) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, timeout);
+            wait.until(ExpectedConditions.presenceOfElementLocated(ObjectRepository));
+            return false;
+        } catch (NoSuchElementException | org.openqa.selenium.TimeoutException e) {
+            return true;
         }
     }
 }

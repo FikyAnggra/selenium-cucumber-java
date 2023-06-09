@@ -16,17 +16,16 @@ public class LoginHouston {
     @When("User input email")
     public void userInputEmail() {
         NobiWeb.waitForElementPresent(NobiObject.elementTagByParameter("*", "placeholder", "Email"), 20);
-        NobiWeb.setText("fiky.anggra@usenobi.com", NobiObject.elementTagByParameter("*", "placeholder", "Email"));
+        NobiWeb.setText(NobiObject.elementTagByParameter("*", "placeholder", "Email"),"fiky.anggra@usenobi.com");
     }
 
     @And("User Input Password")
     public void userInputPassword() {
-        NobiWeb.setText("Usenobi123#", NobiObject.elementTagByParameter("*", "placeholder", "Password"));
+        NobiWeb.setText( NobiObject.elementTagByParameter("*", "placeholder", "Password"),"Usenobi123#");
     }
 
     @And("User Click Button Login")
     public void userClickButtonLogin() {
-        System.out.println(NobiWeb.verifyElementPresent(NobiObject.elementTagByParameter("div", "class", "modal-content"), 20));
         NobiWeb.click(NobiObject.elementTagByParameter("button", "type", "button"));
         if (NobiWeb.verifyElementPresent(NobiObject.elementTagByParameter("div", "class", "modal-content"), 20)) {
             NobiWeb.waitForElementPresent(NobiObject.elementTagByText("div", "Yes"), 20);
