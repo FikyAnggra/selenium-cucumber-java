@@ -9,14 +9,16 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.surefire.version>2.22.2</maven.surefire.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <cucumber.java.version>6.9.1</cucumber.java.version>
         <cucumber.junit.version>6.9.1</cucumber.junit.version>
         <selenium.java.version>3.141.59</selenium.java.version>
         <webdrivermanager.version>5.2.0</webdrivermanager.version>
+        <cucumber.reporting.version>5.5.0</cucumber.reporting.version>
     </properties>
 
     <dependencies>
@@ -47,25 +49,26 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <encoding>UTF-8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>2.8.0</version>
+                <version>${cucumber.reporting.version}</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -74,9 +77,15 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>selenium-cucumber-java</projectName>
+                            <projectName>Selenium Cucumber Tests</projectName>
                             <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
-                            <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
+                            <inputDirectory>${project.build.directory}/cucumber-json</inputDirectory>
+                            <jsonFiles>
+                                <param>**/*.json</param>
+                            </jsonFiles>
+                            <mergeFeaturesById>true</mergeFeaturesById>
+                            <mergeFeaturesWithRetest>true</mergeFeaturesWithRetest>
+                            <checkBuildResult>false</checkBuildResult>
                         </configuration>
                     </execution>
                 </executions>
