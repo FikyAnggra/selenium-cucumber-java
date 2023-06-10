@@ -27,10 +27,12 @@ public class TestDataDriven {
             for (int j = 0; j < totalColumns; j++) {
                 Cell cell = headerRow.getCell(j);
                 String headerValue = cell.getStringCellValue();
+                System.out.println(headerValue);
                 if (headerValue.equalsIgnoreCase(HeaderName)) {
                     columnIndex = j;
                     break;
                 }
+
             }
 
             if (columnIndex == -1) {
@@ -50,7 +52,7 @@ public class TestDataDriven {
                         }
 
                         data = cell.getStringCellValue();
-                        System.out.println("Data[" + i + "][" + columnIndex + "]: " + data);
+//                        System.out.println("Data[" + i + "][" + columnIndex + "]: " + data);
                     }
                 }
             }
@@ -62,7 +64,7 @@ public class TestDataDriven {
             // Tangani pengecualian IOException di sini
             e.printStackTrace();
         }
-        System.out.println(data);
+//        System.out.println(data);
         return data;
     }
 }
