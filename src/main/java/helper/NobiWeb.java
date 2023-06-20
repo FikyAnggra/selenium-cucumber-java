@@ -95,14 +95,25 @@ public class NobiWeb {
         return element.getText();
     }
 
-    public static WebElement waitForElementPresent(By ObjectRepository, int Timeout) {
+    public static void waitForElementPresent(By ObjectRepository, int Timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Timeout);
         try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(ObjectRepository));
+        } catch (NoSuchElementException | org.openqa.selenium.TimeoutException e) {
+            String message = "Element is not present: " + e.getMessage();
+            throw new AssertionError(message);
         }
-        return wait.until(ExpectedConditions.presenceOfElementLocated(ObjectRepository));
+    }
+
+    public static Boolean verifyElementPresent(By ObjectRepository, int timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(ObjectRepository));
+            return true;
+        } catch (NoSuchElementException | org.openqa.selenium.TimeoutException e) {
+            String message = "Element is not present: " + e.getMessage();
+            throw new AssertionError(message);
+        }
     }
 
     public static void delay(int Timeout) {
@@ -110,16 +121,6 @@ public class NobiWeb {
             Thread.sleep(Timeout);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-    }
-
-    public static boolean verifyElementPresent(By ObjectRepository, int timeout) {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, timeout);
-            wait.until(ExpectedConditions.presenceOfElementLocated(ObjectRepository));
-            return true;
-        } catch (NoSuchElementException | org.openqa.selenium.TimeoutException e) {
-            return false;
         }
     }
 
